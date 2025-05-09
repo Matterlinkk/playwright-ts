@@ -38,13 +38,12 @@ jobs:
         run: |
           echo "Current branch: ${{ github.ref }}"
           echo "Workflow status: ${{ job.status }}"
-          echo "Condition result: ${{ success() }}"
 
       - name: Deploy report to GitHub Pages
-        if: success()
+        if: ${{ success() }}
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GHUB_PAGES_TOKEN }}
           publish_dir: ./playwright-report
           keep_files: false
           force_orphan: true
