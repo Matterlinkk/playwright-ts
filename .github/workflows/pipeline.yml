@@ -38,7 +38,7 @@ jobs:
           retention-days: 7
 
       - name: Deploy report to GitHub Pages
-        if: success() && github.ref == 'refs/heads/main'
+        if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GHUB_PAGES_TOKEN }}
