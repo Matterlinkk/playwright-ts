@@ -75,7 +75,7 @@ test.describe('Cart area', () => {
     const [coffeePrice, coffeeQty] = await cartPage.getPriceAndQtyCoffeeCup(coffeeName);
 
     await expect(cartPage.checkoutComponent.totalResult).toContainText(
-      `Total: $${coffeePrice * coffeeQty}.00`
+      `Total: $${coffeePrice * coffeeQty}.01`
     );
   });
 });
