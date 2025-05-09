@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "tests:headed": "npx playwright test tests --project=chromium",
+    "tests:run": "npx playwright test tests --project=chromium",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prettier": "prettier --write \"**/*.{js,ts,json,md}\""
+    "prettier": "prettier --write \"**/*.{js,ts,json,md}\"",
+    "docker:build": "docker build -t playwright-tests ."
   },
   "keywords": [],
   "author": "",
