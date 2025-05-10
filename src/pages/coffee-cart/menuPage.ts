@@ -1,8 +1,8 @@
-import { BasePage } from '@pages/basePage';
-import { Locator, Page } from '@playwright/test';
-import { MouseAction } from '@helper/constants';
-import { MenuConfirmationModalComponent } from '@pages/coffee-cart/components/menuConfirmationModalComponent';
-import { CheckoutComponent } from '@pages/coffee-cart/components/checkoutComponent';
+import { BasePage } from "@pages/basePage";
+import { Locator, Page } from "@playwright/test";
+import { MouseAction } from "@helper/constants";
+import { MenuConfirmationModalComponent } from "@pages/coffee-cart/components/menuConfirmationModalComponent";
+import { CheckoutComponent } from "@pages/coffee-cart/components/checkoutComponent";
 
 class MenuPage extends BasePage {
   readonly menuConfirmationModal: MenuConfirmationModalComponent;
@@ -14,7 +14,7 @@ class MenuPage extends BasePage {
     super(page);
     this.menuConfirmationModal = new MenuConfirmationModalComponent(page);
     this.checkoutComponent = new CheckoutComponent(page);
-    this.url = 'https://coffee-cart.app';
+    this.url = "https://coffee-cart.app";
     this.cartButton = this.page.locator("[aria-label='Cart page']");
   }
 
@@ -24,19 +24,22 @@ class MenuPage extends BasePage {
 
   async getCoffeeCupPrice(coffeeType: string) {
     const outcome = await this.page
-      .locator('li', { hasText: coffeeType })
-      .locator('h4 small')
+      .locator("li", { hasText: coffeeType })
+      .locator("h4 small")
       .textContent();
     if (outcome === null) {
-      throw new Error('Error with parsing the element text');
+      throw new Error("Error with parsing the element text");
     }
     return outcome;
   }
 
-  async addCoffeeCup(coffeeType: string, action: MouseAction = MouseAction.LEFT) {
+  async addCoffeeCup(
+    coffeeType: string,
+    action: MouseAction = MouseAction.LEFT,
+  ) {
     await this.getCoffeeCup(coffeeType).click({ button: action });
     if (action === MouseAction.RIGHT) {
-      await this.getBtnByText('Yes').click();
+      await this.getBtnByText("Yes").click();
     }
   }
 

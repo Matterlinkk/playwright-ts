@@ -1,6 +1,6 @@
 enum MouseAction {
-  LEFT = 'left',
-  RIGHT = 'right',
+  LEFT = "left",
+  RIGHT = "right",
 }
 
 export { MouseAction };

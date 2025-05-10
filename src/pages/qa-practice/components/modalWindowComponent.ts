@@ -1,5 +1,5 @@
-import { FrameLocator, Page, Locator } from '@playwright/test';
-import { BaseComponent } from '@pages/baseComponent';
+import { FrameLocator, Page, Locator } from "@playwright/test";
+import { BaseComponent } from "@pages/baseComponent";
 
 class ModalWindowComponent extends BaseComponent {
   readonly modalWindow: Locator;
@@ -8,27 +8,29 @@ class ModalWindowComponent extends BaseComponent {
 
   constructor(page: Page) {
     super(page);
-    this.modalIframe = this.page.frameLocator('.modal-content iframe');
-    this.modalWindow = this.page.locator('.modal-content');
+    this.modalIframe = this.page.frameLocator(".modal-content iframe");
+    this.modalWindow = this.page.locator(".modal-content");
     this.checkbox = this.page.locator("[name='checkbox']");
   }
 
   async copyTextAndConfirmModal() {
-    const copiedText = await this.modalIframe.locator('#text-to-copy').textContent();
+    const copiedText = await this.modalIframe
+      .locator("#text-to-copy")
+      .textContent();
     if (copiedText === null) {
-      throw new Error('Error with parsing text from the element');
+      throw new Error("Error with parsing text from the element");
     }
-    await this.getBtnByText('Check').click();
+    await this.getBtnByText("Check").click();
     return copiedText;
   }
 
   async clickCheckboxAndSubmitForm() {
     await this.checkbox.click();
-    await this.getBtnByText('Send').click();
+    await this.getBtnByText("Send").click();
   }
 
   async submitForm() {
-    await this.getBtnByText('Send').click();
+    await this.getBtnByText("Send").click();
   }
 }
 

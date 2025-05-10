@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page } from "@playwright/test";
 
 abstract class BaseElement {
   protected page: Page;
@@ -7,7 +7,8 @@ abstract class BaseElement {
     this.page = page;
   }
 
-  getBtnByText = (text: string): Locator => this.page.getByRole('button', { name: text });
+  getBtnByText = (text: string): Locator =>
+    this.page.getByRole("button", { name: text });
 }
 
 export { BaseElement };

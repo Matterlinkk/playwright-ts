@@ -1,5 +1,5 @@
-import { Page } from '@playwright/test';
-import { BaseElement } from '@pages/baseElement';
+import { Page } from "@playwright/test";
+import { BaseElement } from "@pages/baseElement";
 
 abstract class BaseComponent extends BaseElement {
   protected page: Page;
