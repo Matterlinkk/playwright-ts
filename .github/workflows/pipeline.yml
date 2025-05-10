@@ -23,8 +23,21 @@ jobs:
           docker build -t playwright-tests:latest .
 
       - name: Run Playwright tests
+        id: run-tests
+        continue-on-error: true
         run: |
-          docker run --mount type=bind,source="$(pwd)",target=/app playwright-tests:latest /bin/bash -c "npm install && PLAYWRIGHT_HTML_REPORT=/app/playwright-report npm run tests:all"
+          mkdir -p playwright-report
+          rm -rf playwright-report/*
+          
+          docker run --mount type=bind,source="$(pwd)",target=/app \
+            -e CI=true \
+            playwright-tests:latest /bin/bash -c \
+            "npm install && \
+            PLAYWRIGHT_HTML_REPORT=/app/playwright-report \
+            npm run tests:all"
+          
+          echo "EXIT_CODE=$?" >> $GITHUB_ENV
+          echo "Tests exit code: $?"
 
       - name: Upload test results
         if: always()
@@ -35,10 +48,21 @@ jobs:
           retention-days: 7
 
       - name: Deploy report to GitHub Pages
-        if: ${{ success() }}
+        if: steps.run-tests.outcome != 'cancelled' && steps.run-tests.outcome != 'skipped'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GHUB_PAGES_TOKEN }}
           publish_dir: ./playwright-report
           keep_files: false
           force_orphan: true
+
+      - name: Set job status based on test results
+        if: always()
+        run: |
+          echo "Tests finished with exit code: ${{ env.EXIT_CODE }}"
+          if [[ "${{ env.EXIT_CODE }}" != "0" ]]; then
+            echo "Tests failed, marking workflow as failed"
+            exit 1
+          else
+            echo "Tests passed successfully"
+          fi
