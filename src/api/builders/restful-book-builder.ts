@@ -30,7 +30,7 @@ class BookBuilder {
         return regex.test(dateString);
     }
 
-    private findUndefinedFields(obj: any, prefix: string = ''): string[] {
+    private findUndefinedFields(obj: Booking, prefix: string = ''): string[] {
         const undefinedFields: string[] = [];
 
         for (const key in obj) {
@@ -117,4 +117,4 @@ function createRandomBooking () {
         .build()
 }
 
-export {createRandomBooking}
+export {createRandomBooking, Booking}

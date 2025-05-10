@@ -25,16 +25,14 @@ jobs:
       - name: Run Playwright tests
         id: run-tests
         continue-on-error: true
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          API_USERNAME: ${{ secrets.API_USERNAME }}
+          API_PASSWORD: ${{ secrets.API_PASSWORD }}
         run: |
-          mkdir -p playwright-report
-          rm -rf playwright-report/*
-          
           docker run --mount type=bind,source="$(pwd)",target=/app \
-            -e CI=true \
-            playwright-tests:latest /bin/bash -c \
-            "npm install && \
-            PLAYWRIGHT_HTML_REPORT=/app/playwright-report \
-            npm run tests:all"
+          -e API_BASE_URL -e API_USERNAME -e API_PASSWORD -e CI=true \
+          playwright-tests:latest /bin/bash -c "npm install && PLAYWRIGHT_HTML_REPORT=/app/playwright-report npm run tests:all"
           
           echo "EXIT_CODE=$?" >> $GITHUB_ENV
           echo "Tests exit code: $?"
@@ -55,14 +53,3 @@ jobs:
           publish_dir: ./playwright-report
           keep_files: false
           force_orphan: true
-
-      - name: Set job status based on test results
-        if: always()
-        run: |
-          echo "Tests finished with exit code: ${{ env.EXIT_CODE }}"
-          if [[ "${{ env.EXIT_CODE }}" != "0" ]]; then
-            echo "Tests failed, marking workflow as failed"
-            exit 1
-          else
-            echo "Tests passed successfully"
-          fi

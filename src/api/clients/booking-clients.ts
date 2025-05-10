@@ -1,4 +1,5 @@
 import { APIRequestContext, APIResponse } from "@playwright/test";
+import {Booking} from "@api/builders/restful-book-builder";
 
 export class BookingClient {
     private request: APIRequestContext;
@@ -15,13 +16,13 @@ export class BookingClient {
         return await this.request.get(`/booking/${id}`);
     }
 
-    async createBooking(bookingData: any): Promise<APIResponse> {
+    async createBooking(bookingData: Booking): Promise<APIResponse> {
         return await this.request.post("/booking", {
             data: bookingData
         });
     }
 
-    async updateBooking(id: number, bookingData: any, token: string): Promise<APIResponse> {
+    async updateBooking(id: number, bookingData: Booking, token: string): Promise<APIResponse> {
         return await this.request.put(`/booking/${id}`, {
             data: bookingData,
             headers: {

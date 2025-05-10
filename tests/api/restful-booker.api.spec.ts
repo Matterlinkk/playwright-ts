@@ -26,7 +26,7 @@ test.describe("Restful book api", () => {
         if (testBookingId) {
             try {
                 await bookingClient.deleteBooking(testBookingId, authToken);
-            } catch (e) {
+            } catch {
                 console.warn(`Unable to delete the booking with ID ${testBookingId}`);
             }
         }
@@ -71,7 +71,7 @@ test.describe("Restful book api", () => {
         expect(bookingDetails.additionalneeds).toBe(booking.additionalneeds);
     });
 
-    test.only("Update a booking", async ({ request }) => {
+    test("Update a booking", async ({ request }) => {
         const bookingClient = new BookingClient(request);
         const originalBooking = createRandomBooking();
 
