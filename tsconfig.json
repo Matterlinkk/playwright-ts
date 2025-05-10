@@ -5,7 +5,8 @@
       "@pages/*": ["src/pages/*"],
       "@helper/*": ["src/helper/*"],
       "@support/*": ["src/support/*"],
-      "@data/*": ["src/data/*"]
+      "@data/*": ["src/data/*"],
+      "@api/*": ["src/api/*"]
     },
     "target": "ES2022",
     "module": "NodeNext",

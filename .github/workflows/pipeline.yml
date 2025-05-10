@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Playwright tests
         run: |
-          docker run --mount type=bind,source="$(pwd)",target=/app playwright-tests:latest /bin/bash -c "npm install && PLAYWRIGHT_HTML_REPORT=/app/playwright-report npm run tests:run"
+          docker run --mount type=bind,source="$(pwd)",target=/app playwright-tests:latest /bin/bash -c "npm install && PLAYWRIGHT_HTML_REPORT=/app/playwright-report npm run tests:all"
 
       - name: Upload test results
         if: always()
@@ -33,11 +33,6 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
-
-      - name: Debug info before deploy
-        run: |
-          echo "Current branch: ${{ github.ref }}"
-          echo "Workflow status: ${{ job.status }}"
 
       - name: Deploy report to GitHub Pages
         if: ${{ success() }}
